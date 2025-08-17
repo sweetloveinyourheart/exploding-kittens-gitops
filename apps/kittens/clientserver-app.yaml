@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: clientserver
+  namespace: argocd              # where ArgoCD is installed
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/sweetloveinyourheart/exploding-kittens-gitops.git'
+    targetRevision: main
+    path: charts/kittens-service
+    helm:
+      values: |
+        image:
+          repository: ghcr.io/sweetloveinyourheart/exploding-kittens
+          tag: "2025-08-16-0432_main_bcd4a6a"   # can also be overridden via automation
+        replicaCount: 1
+        service:
+          type: ClusterIP
+          port: 8080
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kittens
+  syncPolicy:
+    automated:
+      prune: true       # delete resources no longer defined
+      selfHeal: true    # reconcile drift automatically
+    syncOptions:
+      - CreateNamespace=true

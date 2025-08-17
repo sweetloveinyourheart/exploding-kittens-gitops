@@ -1,0 +1,26 @@
+serviceName: gameengineserver
+replicaCount: 1
+image:
+  repository: kittens
+  tag: latest
+ports:
+  grpc: 50054
+env:
+  - name: EXPLODING_KITTENS_SERVICE
+    value: gameengineserver
+  - name: EXPLODING_KITTENS_OTEL_URL
+    value: otel-collector:4317
+  - name: GAMEENGINESERVER_ID
+    value: "00000000-0000-0000-0000-000000000004"
+  - name: GAMEENGINESERVER_SECRETS_TOKEN_SIGNING_KEY
+    valueFrom:
+      secretKeyRef:
+        name: gameengineserver-secrets
+        key: tokenKey
+  - name: GAMEENGINESERVER_DB_URL
+    valueFrom:
+      secretKeyRef:
+        name: gameengineserver-secrets
+        key: dbUrl
+  - name: GAMEENGINESERVER_NATS_URL
+    value: nats://nats:4222

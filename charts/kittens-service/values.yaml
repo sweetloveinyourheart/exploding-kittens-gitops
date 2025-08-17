@@ -1,0 +1,54 @@
+# --- Basic service info ---
+serviceName: "kittens-service"
+replicaCount: 1
+
+# --- Container image ---
+image:
+  repository: kittens
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# --- Ports (can define multiple if needed) ---
+ports:
+  grpc: 50051
+  http: 5052   # for healthcheck
+
+# --- Environment variables ---
+env: []
+  # Example:
+  # - name: EXPLODING_KITTENS_SERVICE
+  #   value: clientserver
+
+# --- Secrets (optional) ---
+secrets: {}
+  # Example:
+  # tokenKey: "key"
+  # dbUrl: "url"
+
+# --- Resources ---
+resources: {}
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 200m
+  #   memory: 256Mi
+
+# --- Service type ---
+service:
+  type: ClusterIP
+
+# --- Health check ---
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 20
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5

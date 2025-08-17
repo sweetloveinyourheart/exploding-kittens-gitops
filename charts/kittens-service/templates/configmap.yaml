@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.serviceName }}-config
+data:
+  application.yaml: |
+    service: {{ .Values.serviceName }}
+    grpcPort: {{ .Values.ports.grpc }}
+    httpPort: {{ .Values.ports.http }}
+    # Extra envs can be injected if needed

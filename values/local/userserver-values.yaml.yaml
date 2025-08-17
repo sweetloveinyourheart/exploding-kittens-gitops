@@ -1,0 +1,24 @@
+serviceName: userserver
+replicaCount: 1
+image:
+  repository: kittens
+  tag: latest
+ports:
+  grpc: 50052
+env:
+  - name: EXPLODING_KITTENS_SERVICE
+    value: userserver
+  - name: EXPLODING_KITTENS_OTEL_URL
+    value: otel-collector:4317
+  - name: USERSERVER_ID
+    value: "00000000-0000-0000-0000-000000000002"
+  - name: USERSERVER_SECRETS_TOKEN_SIGNING_KEY
+    valueFrom:
+      secretKeyRef:
+        name: userserver-secrets
+        key: tokenKey
+  - name: USERSERVER_DB_URL
+    valueFrom:
+      secretKeyRef:
+        name: userserver-secrets
+        key: dbUrl

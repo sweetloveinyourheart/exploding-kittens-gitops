@@ -1,0 +1,21 @@
+serviceName: lobbyserver
+replicaCount: 1
+image:
+  repository: kittens
+  tag: latest
+ports:
+  grpc: 50053
+env:
+  - name: EXPLODING_KITTENS_SERVICE
+    value: lobbyserver
+  - name: EXPLODING_KITTENS_OTEL_URL
+    value: otel-collector:4317
+  - name: LOBBYSERVER_ID
+    value: "00000000-0000-0000-0000-000000000003"
+  - name: LOBBYSERVER_SECRETS_TOKEN_SIGNING_KEY
+    valueFrom:
+      secretKeyRef:
+        name: lobbyserver-secrets
+        key: tokenKey
+  - name: LOBBYSERVER_NATS_URL
+    value: nats://nats:4222

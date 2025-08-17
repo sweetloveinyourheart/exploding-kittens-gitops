@@ -1,0 +1,30 @@
+serviceName: dataprovider
+replicaCount: 1
+image:
+  repository: kittens
+  tag: latest
+ports:
+  grpc: 50055
+env:
+  - name: EXPLODING_KITTENS_SERVICE
+    value: dataprovider
+  - name: EXPLODING_KITTENS_OTEL_URL
+    value: otel-collector:4317
+  - name: DATAPROVIDER_ID
+    value: "00000000-0000-0000-0000-000000000005"
+  - name: DATAPROVIDER_SECRETS_TOKEN_SIGNING_KEY
+    valueFrom:
+      secretKeyRef:
+        name: dataprovider-secrets
+        key: tokenKey
+  - name: DATAPROVIDER_DB_URL
+    valueFrom:
+      secretKeyRef:
+        name: dataprovider-secrets
+        key: dbUrl
+  - name: DATAPROVIDER_REDIS_URL
+    valueFrom:
+      secretKeyRef:
+        name: dataprovider-secrets
+        key: redisUrl
+        
