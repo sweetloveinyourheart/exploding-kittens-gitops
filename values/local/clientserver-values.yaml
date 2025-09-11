@@ -1,10 +1,11 @@
 serviceName: clientserver
 replicaCount: 1
 image:
-  repository: kittens
-  tag: latest
-ports:
-  grpc: 50051
+  repository: ghcr.io/sweetloveinyourheart/exploding-kittens
+  tag: "2025-08-16-0432_main_bcd4a6a"   # can also be overridden via automation
+service:
+  type: ClusterIP
+  port: 8080
 env:
   - name: EXPLODING_KITTENS_SERVICE
     value: clientserver
